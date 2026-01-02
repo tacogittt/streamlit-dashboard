@@ -6,7 +6,20 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
-import japanize_matplotlib  # 日本語フォント対応
+import matplotlib.font_manager as fm
+
+# 日本語フォント設定（japanize_matplotlibの代替）
+try:
+    # システムに存在する日本語フォントを自動検出
+    japanese_fonts = [f.name for f in fm.fontManager.ttflist if 'JP' in f.name or 'Japan' in f.name or 'Gothic' in f.name or 'Mincho' in f.name]
+    if japanese_fonts:
+        plt.rcParams['font.family'] = japanese_fonts[0]
+    else:
+        # フォールバック: DejaVu Sans（記号は表示可能）
+        plt.rcParams['font.family'] = 'DejaVu Sans'
+    plt.rcParams['axes.unicode_minus'] = False  # マイナス記号の文字化け防止
+except:
+    pass  # フォント設定に失敗してもアプリは動作する
 
 # ページ設定
 st.set_page_config(
